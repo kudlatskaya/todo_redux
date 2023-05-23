@@ -1,4 +1,4 @@
-import {useCallback} from 'react';
+import {useCallback, useMemo} from 'react';
 import './App.css';
 import TodoList, {TaskType} from "./todolist/Todolist";
 import {v1} from "uuid";
@@ -103,7 +103,7 @@ function App() {
                                     <Paper style={{padding:'10px'}} elevation={3}>
                                         <TodoList
                                             key={item.id}
-                                            id={item.id}
+                                            todolistId={item.id}
                                             title={item.title}
                                             tasks={getFilteredTasks(tasks[item.id], item.filter)}
                                             filter={item.filter}

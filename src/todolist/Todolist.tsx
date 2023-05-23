@@ -1,4 +1,4 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useMemo} from 'react';
 import TasksList from "./TasksList";
 import {FilterValuesType} from "../App";
 import {AddItemForm} from "../components/AddItemForm";
@@ -6,9 +6,10 @@ import {EditableSpan} from "../components/EditableSpan";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
+import {removeTaskAC} from "../state/tasksReducer";
 
 type TotoListPropsType = {
-    id: string,
+    todolistId: string,
     title: string,
     filter: FilterValuesType,
     tasks: Array<TaskType>,
@@ -28,26 +29,25 @@ export type TaskType = {
 }
 
 const TodoList = memo(({
-                      id,
-                      title,
-                      filter,
-                      tasks,
-                      changeFilterValue,
-                      removeTask,
-                      addTask,
-                      changeTaskStatus,
-                      changeTaskTitle,
-                      changeTodoListTitle,
-                      removeTodoList,
-                  }: TotoListPropsType) => {
-
+                           todolistId,
+                           title,
+                           filter,
+                           tasks,
+                           changeFilterValue,
+                           removeTask,
+                           addTask,
+                           changeTaskStatus,
+                           changeTaskTitle,
+                           changeTodoListTitle,
+                           removeTodoList,
+                       }: TotoListPropsType) => {
 
     const handlerCreator = (filter: FilterValuesType) => {
-        return () => changeFilterValue(filter, id)
+        return () => changeFilterValue(filter, todolistId)
     }
 
     const removeTodoListHandler = () => {
-        removeTodoList(id)
+        removeTodoList(todolistId)
     }
 
     const setAllFilterValue = handlerCreator('all')
@@ -55,12 +55,12 @@ const TodoList = memo(({
     const setCompletedFilterValue = handlerCreator('completed')
 
     const addTaskHandler = useCallback((title: string) => {
-        addTask(title, id);
-    }, [addTask, id])
+        addTask(title, todolistId);
+    }, [addTask, todolistId])
 
-    const onChangeTodoListTitleHandler =useCallback((newValue: string) => {
-        changeTodoListTitle(id, newValue)
-    }, [changeTodoListTitle, id])
+    const onChangeTodoListTitleHandler = useCallback((newValue: string) => {
+        changeTodoListTitle(todolistId, newValue)
+    }, [changeTodoListTitle, todolistId])
 
     return (
         <div className={'todolist'}>
@@ -75,7 +75,7 @@ const TodoList = memo(({
             <AddItemForm addItem={addTaskHandler}/>
 
             <TasksList
-                id={id}
+                todolistId={todolistId}
                 tasks={tasks}
                 removeTask={removeTask}
                 changeTaskStatus={changeTaskStatus}
@@ -83,25 +83,42 @@ const TodoList = memo(({
             />
 
             <div className={'filter-btn-container'}>
-                <Button variant={filter === 'all' ? 'outlined' : 'contained'}
+                <ButtonContainer title={'All'} variant={filter === 'all' ? 'outlined' : 'contained'}
                         color="success"
-                        onClick={setAllFilterValue}>
-                    All
-                </Button>
-                <Button variant={filter === 'active' ? 'outlined' : 'contained'}
+                        onClick={setAllFilterValue}/>
+
+                <ButtonContainer title={'Active'} variant={filter === 'active' ? 'outlined' : 'contained'}
                         color="error"
-                        onClick={setActiveFilterValue}>
-                    Active
-                </Button>
-                <Button variant={filter === 'completed' ? 'outlined' : 'contained'}
+                        onClick={setActiveFilterValue}/>
+
+                <ButtonContainer title={'Completed'} variant={filter === 'completed' ? 'outlined' : 'contained'}
                         color="secondary"
-                        onClick={setCompletedFilterValue}>
-                    Completed
-                </Button>
+                        onClick={setCompletedFilterValue}/>
             </div>
         </div>
     );
 });
+
+type ButtonContainerPropsType = {
+    title: string,
+    color: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | undefined,
+    variant:  "text" | "outlined" | "contained" | undefined,
+    onClick:  () => void,
+}
+
+const ButtonContainer = memo(({
+                             title,
+                             color,
+                             variant,
+                             onClick,
+                         }: ButtonContainerPropsType) => {
+
+    return <Button variant={variant}
+                   color={color}
+                   onClick={onClick}>
+        {title}
+    </Button>
+})
 
 
 export default TodoList;
