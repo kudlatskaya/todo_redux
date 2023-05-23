@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {TaskType} from "./Todolist";
 import {EditableSpan} from "../components/EditableSpan";
 import IconButton from "@mui/material/IconButton";
@@ -22,9 +22,9 @@ const TasksList = (props: TasksListPropsType) => {
                 props.changeTaskStatus(task.id, e.currentTarget.checked, props.id)
             };
 
-            const onChangeTitleHandler = (newValue: string) => {
+            const onChangeTitleHandler = useCallback((newValue: string) => {
                 props.changeTaskTitle(task.id, newValue, props.id)
-            }
+            }, [props.changeTaskTitle, props.id])
 
             return (
                 <li key={task.id}>

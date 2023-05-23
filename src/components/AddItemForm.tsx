@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, memo, useState} from "react";
 import Button from '@mui/material/Button';
 import TextField from "@mui/material/TextField";
 
@@ -6,7 +6,7 @@ type AddItemFormPropsType = {
     addItem: (title: string) => void,
 }
 
-export function AddItemForm(props: AddItemFormPropsType) {
+export const AddItemForm = memo((props: AddItemFormPropsType) => {
 
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
@@ -59,4 +59,4 @@ export function AddItemForm(props: AddItemFormPropsType) {
             +
         </Button>
     </div>
-}
+})
