@@ -79,6 +79,11 @@ function App() {
         }
     }
 
+
+    // const filteredTasks = useMemo(() => {
+    //     return getFilteredTasks(tasks, filter)
+    // }, [props.filter, props.tasks])
+
     const removeTodoList =  useCallback((todoListId: string) => {
         dispatch(removeTodoListAC(todoListId))
     }, [dispatch])

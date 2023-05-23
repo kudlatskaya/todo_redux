@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useMemo} from 'react';
+import React, {memo, useCallback} from 'react';
 import TasksList from "./TasksList";
 import {FilterValuesType} from "../App";
 import {AddItemForm} from "../components/AddItemForm";
@@ -6,7 +6,6 @@ import {EditableSpan} from "../components/EditableSpan";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import {removeTaskAC} from "../state/tasksReducer";
 
 type TotoListPropsType = {
     todolistId: string,
