@@ -34,12 +34,8 @@ export const AddItemFormStory: Story = {
 export const AddItemFormWithErrorStory = (args: AddItemFormPropsType) => {
     // More on args: https://storybook.js.org/docs/react/writing-stories/args
 
-
         const [title, setTitle] = useState<string>('');
         const [error, setError] = useState<boolean>(true);
-
-        const maxLengthUserMessage: number = 15;
-        const isUserMessageToLong: boolean = title.length > maxLengthUserMessage;
 
         const changeLocalTitle = (e: ChangeEvent<HTMLInputElement>) => {
             error && setError(false);
